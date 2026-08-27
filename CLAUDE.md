@@ -64,27 +64,31 @@ his phone between classes.
 
 ## Working with the data
 
-Training data lives in `data/log.csv`, one row per session. The schema and
-allowed values are documented in `data/README.md`.
+Three CSVs in `data/`, documented in `data/README.md`: `prs.csv` (lifetime
+bests), `races.csv` (results with course adjustments), `weeks.csv` (one row per
+week). **Weekly resolution is the right resolution** — do not ask him for
+day-by-day logs. Every rule that matters is weekly.
 
-When Luke reports training in prose ("ran 8 easy at 6:40, felt flat, calf was
-quiet this morning"), **append rows to `data/log.csv` yourself** rather than
-asking him to format it. Keep `data/training-notes.md` for the narrative that
-does not fit in a CSV cell.
+When he reports training in prose, update the CSVs yourself.
 
 Do the arithmetic with the tool, not in your head:
 
 ```bash
-python3 tools/coachkit.py week --weeks 4     # weekly load, hard days, rule flags
-python3 tools/coachkit.py check              # rule violations only
-python3 tools/coachkit.py equiv --time 16:59 --from 5000 --to 1609
-python3 tools/coachkit.py xt --minutes 120   # cross-training mileage credit
+python3 tools/coachkit.py predict    # equivalents, profile, fitness, race range
+python3 tools/coachkit.py plan       # week-by-week to state
+python3 tools/coachkit.py week       # weekly load + rule flags
+python3 tools/coachkit.py check      # violations only
 ```
 
-`week` and `check` apply the ceiling, the two-hard-days rule, the
-volume-and-intensity rule, and the 48-hour race rule to the actual log. Run them
-before writing a prescription — if they flag something, address it in the first
-sentence.
+## The one insight that drives prescriptions
 
-The next-morning field (`next_am`) is the one that matters most. If it is blank
-for recent hard sessions, ask for it before prescribing more load.
+His 800 (1:58) predicts a 13:43 5K. His 3200 (9:29) predicts 15:13. He has run
+15:19. **He is speed-rich and aerobically under-built** — so sub-15:00 is an
+aerobic-strength problem, not a speed problem.
+
+Prescribe threshold and sustained work. Do not prescribe more short, fast reps;
+that trains what he is already best at. Use the 3200 as the fitness anchor and
+never set 5K expectations off the 800 or mile.
+
+His closing speed is still a tactical weapon in a top-3 fight — nobody outkicks
+a 1:58 800 runner over the last 400.

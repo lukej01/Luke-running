@@ -12,13 +12,14 @@ automatically with the role, the injury rules, and the athlete history.
 ```
 CLAUDE.md                      coach role + hard rules (auto-loaded)
 prompts/training-assistant.md  the original prompt, kept verbatim
-athlete/profile.md             durable facts: PRs, injury history, standing rules
+athlete/profile.md             PRs, the speed-vs-strength diagnosis, injury history
 athlete/season-2026.md         summer 2026 history + current status
-data/log.csv                   one row per session — the source of truth
-data/README.md                 CSV schema and the next_am scale
-data/training-notes.md         narrative that doesn't fit in a cell
-data/schedule-2026.md          meets (several still unconfirmed)
-tools/coachkit.py              load accounting, rule checks, time conversion
+data/prs.csv                   lifetime bests
+data/races.csv                 results with course adjustments
+data/weeks.csv                 weekly training shape
+data/README.md                 CSV schemas
+data/schedule-2026.md          race every Saturday to state
+tools/coachkit.py              predictions, planning, rule checks
 tools/test_coachkit.py         tests
 ```
 
@@ -32,12 +33,12 @@ up first.
 ## The tool
 
 ```bash
-python3 tools/coachkit.py week --weeks 4        # weekly load + rule flags
-python3 tools/coachkit.py check                 # violations only; exit 1 if any
-python3 tools/coachkit.py equiv --time 16:59 --from 5k --course-adj 90
-python3 tools/coachkit.py xt --minutes 150      # cross-training credit
-python3 tools/coachkit.py countdown --to 2026-11-07
-python3 tools/test_coachkit.py                  # tests
+python3 tools/coachkit.py predict    # equivalents, profile, fitness, race range
+python3 tools/coachkit.py plan       # week-by-week to state
+python3 tools/coachkit.py week       # weekly load + rule flags
+python3 tools/coachkit.py check      # violations only; exit 1 if any
+python3 tools/coachkit.py xt --minutes 150
+python3 tools/test_coachkit.py       # 23 tests
 ```
 
 `week` and `check` enforce the standing rules against the actual log: the ~50
@@ -45,20 +46,23 @@ mile ceiling, two hard days per week, no volume-and-intensity in the same week,
 progression only after symptom-free weeks, and no full workout within 48 hours
 of a race.
 
-## The one thing that matters most
+## The two things that matter most
 
-He has been injured at 60+ miles per week **three separate times**, and every
-flare followed a load or intensity jump — showing up the next morning, not
-during the run. He also responds unusually well to cross-training (10 min ≈ 1
-mile) and came back from a mono layoff to run 16:59 on a hard course in his
-first race back.
+**Health.** He has been injured at 60+ miles per week three separate times, and
+every flare followed a load or intensity jump, showing up the next morning
+rather than during the run. Fitness has never been his limiter. Any plan that
+trades health for volume has the trade backwards.
 
-Fitness has never been his limiter. Staying healthy is. Any plan that trades
-health for volume has the trade backwards.
+**He is speed-rich and aerobically under-built.** His 800 predicts a 13:43 5K;
+he has run 15:19. Sub-15 does not require getting faster — it requires the
+aerobic strength that mono and three injury cycles have never let him build.
+Train threshold, not more 200s.
+
+Those two point the same way: patient aerobic work, cross-training for the
+volume he cannot absorb on foot, and a body that arrives in November intact.
 
 ## Status
 
-Current data is thin: `log.csv` holds three benchmark sessions, two with
-estimated dates, and the ~45 mpw month behind them was not logged day by day.
-`coachkit week` will flag all of that. Denmark's meet schedule could not be
-retrieved — see the checklist in `data/schedule-2026.md`.
+Current fitness estimate ~14:48-15:09 flat 5K, anchored on the same-course
+comparison (17:30 on the opener course last year, 16:59 this year). State
+projection ~14:38-14:59. Run `predict` for the working.

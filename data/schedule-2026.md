@@ -1,60 +1,44 @@
 # 2026 schedule
 
-## Confirmed
+## The shape
 
-| Date | Event | Venue | Notes |
-|---|---|---|---|
-| Fri 2026-11-06 | GHSA XC State Championships — day 1 | Carrollton HS course | 4A, 5A, Private (2A–4A) |
-| **Sat 2026-11-07** | **GHSA XC State Championships — day 2** | **Carrollton HS course** | **6A, 2A, 1A, 7A, 3A — Luke races this day** |
+**A cross country race essentially every Saturday from now until state**, with
+an occasional off weekend. That is all the plan needs — the weekly structure is
+identical whichever meet it is.
 
-Source: GHSA state cross country championship listings and the MileSplit GA meet
-page for the 2026 championships. The two-day split (6A on Saturday) matches the
-target date already in the plan.
-
-## Countdown
-
-Anchor date 2026-08-27:
-
-| Milestone | Date | Weeks out |
+| Date | Event | Notes |
 |---|---|---|
-| State (6A) | Sat 2026-11-07 | 10.3 |
-| Region | *unconfirmed* | — |
-| Sectionals | *unconfirmed* | — |
+| Sat 2026-11-07 | **GHSA State Championships, Carrollton** | 6A runs Saturday |
+| Fri 2026-11-06 | State day 1 | 4A, 5A, Private — not his day |
 
-Recompute with:
+State date confirmed against GHSA and MileSplit listings. Region and sectionals
+dates are not confirmed; they land in the two weeks before state and the plan
+already treats those weeks as sharpen and peak.
 
-```bash
-python3 tools/coachkit.py countdown --to 2026-11-07
+## Why the exact meet dates barely matter
+
+Racing every Saturday makes the week self-scheduling:
+
+- The race is one of two permitted hard days.
+- So there is exactly **one** workout midweek.
+- It goes **Tuesday**, which keeps it clear of the 48-hour rule on both sides.
+
+That template holds whether Saturday is a rust-buster or region. What changes
+across the season is the *content* of the Tuesday workout and the mileage,
+which `coachkit plan` lays out week by week.
+
+## What is worth recording
+
+Not dates — results. After each race, add a row to `data/races.csv`:
+
+```
+date,meet,time,course,course_adj,flat_ref,notes
 ```
 
-## Unconfirmed — needs Luke's input
+`course_adj` is the seconds the course cost versus a fast one. A rough guide:
+flat and fast 0, rolling grass 30-60, genuinely hard 90-130. The opener is set
+to 110.
 
-**I could not retrieve the Denmark High School meet schedule.** Both
-`ga.milesplit.com` and `ghsa.net` are blocked by this environment's network
-egress proxy, so the team schedule page and the GHSA calendar could not be read.
-Rather than guess at meet names and dates, they are left blank here.
-
-**Luke — please fill in:**
-
-- [ ] Denmark's remaining regular-season meets (name, date, course)
-- [ ] Which course the season-opening 16:59 was run on
-- [ ] Region meet date and site
-- [ ] Sectionals date and site (if 6A runs sectionals this year)
-- [ ] Which meets are goal races vs. rust-busters vs. skips
-
-Add them to the table below and the phasing in `athlete/season-2026.md` can be
-pinned to real dates.
-
-| Date | Meet | Course | Priority | Course difficulty |
-|---|---|---|---|---|
-| | | | | |
-
-**Course difficulty** is worth recording every time. Use it to adjust race times
-back to a flat-5K equivalent — a 17:00 on a hard course is not a 17:00 5K.
-
-The reference point available: last year he ran ~17:30 on the opener course and
-15:19 the following week. Do **not** read that 2:11 gap as pure course
-difficulty — it also contains a fast course on the other end, another week of
-fitness, and peak-race conditions. The honest split is unknown. What the pairing
-does establish is that a ~17:30 on this course was consistent with 15:19
-ability, which is why this year's 16:59 is the strong signal it is.
+Two races on the same course are worth far more than any single time, because
+the course cancels out. That is how the current fitness estimate is anchored:
+17:30 there last year, 16:59 there this year.

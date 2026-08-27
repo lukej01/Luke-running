@@ -1,39 +1,52 @@
 # Training notes
 
-Narrative log. Numbers go in `log.csv`; this is for context that does not fit in
-a cell. Newest first.
+Narrative context. Numbers live in the CSVs. Newest first.
 
-## 2026-08-27 — repo set up
+## 2026-08-27 — baseline set
 
-Baseline captured from the summer summary. Current state: ~45 miles/week held for
-roughly a month, about three weeks into consistent workout training, no active
-injury, 10.3 weeks to state.
+Roughly a month at 45 miles/week, about three weeks of consistent workouts, no
+active injury. Four symptom-free weeks on the board, so **the step to 48 is
+earned**. 10 weeks to state.
 
-**Known gaps in the data.** The daily record for the ~45 mpw month was not
-captured, so `log.csv` currently holds only the three recent benchmark sessions
-and `coachkit week` will under-report those weeks. Two of the three have
-estimated dates. Worth backfilling if the detail is available, because the
-progression rule ("two consecutive symptom-free weeks") needs week-by-week
-symptom history to mean anything.
+Racing essentially every Saturday from here to state. That fixes the weekly
+shape: the race is one hard day, so one workout midweek, Tuesday.
 
-**Also missing:** next-morning reports on all three benchmark sessions. That is
-the field his injury pattern actually shows up in, so it is the most valuable
-thing to start recording consistently from here.
+## What the PR set says
 
-## Benchmarks on file
+| PR | 5K-equivalent |
+|---|---|
+| 800 — 1:58 | 13:43 |
+| 1600 — 4:20 (sick) | 14:30 |
+| 3200 — 9:29 (sick) | 15:13 |
+| 5K XC — 15:19 | 15:19 |
 
-- **5 × 1200, hilly trail** (~2 weeks ago, date estimated) — crushed it.
-- **Season opener 16:59**, extremely slow/hard course. Last year: ~17:30 on the
-  same course the week before running 15:19.
-- **Mon 2026-08-24 ladder**, minimal rest: 1.5mi @ 5:05 → 1mi @ 4:59 → 800 in
-  2:20 → 400 in 59 → 200 in 26.
+A 1:36 spread, sloping the same way throughout: the shorter the race, the
+better he looks. He is speed-rich and aerobically under-built — the predictable
+result of mono plus three injury cycles plus months of cross-training instead of
+running.
 
-Read together: roughly a 30-second improvement on identical terrain versus last
-year, achieved in his *first race back* rather than mid-season, with ladder work
-at 15-flat caliber. Current fitness is at or slightly ahead of last year's peak
-with the whole build still ahead.
+So the sub-15 goal is an aerobic-strength problem, not a speed problem, and the
+Tuesday workout should be threshold and sustained work. The Monday ladder that
+closed 400 in 59 and 200 in 26 was fun and fast and trained the thing he is
+already best at. That is a wasted hard day at this point in the season.
 
-The implication is patience, not acceleration. The fitness is already there. The
-job between now and November 7 is arriving healthy — which, given that every
-flare in his history followed a load or intensity jump, means the ~50 mile
-ceiling holds and cross-training carries the extra aerobic work.
+The 3200 is the honest anchor — it converts to 15:13 against an actual 15:19.
+
+## Current fitness
+
+Two independent reads:
+
+- **Same-course delta (stronger).** 17:30 on the opener course last year, 16:59
+  this year — 31 seconds faster on identical terrain. Last year's 17:30 sat one
+  week before a 15:19, so 16:59 maps to about **14:48**.
+- **Course adjustment.** 16:59 minus ~110s for an extremely slow course gives
+  about **15:09**.
+
+Call it **14:48–15:09**. And last year's comparison point was a week from peak,
+while this year's was his first race back — the whole build is still ahead.
+
+## The tactical note for state
+
+Top 3 is a closing question, not a fitness question. Nobody in a Georgia 6A
+field outkicks a 1:58 800 runner. If he is in contact at 400m to go, he wins
+that sprint. The job is arriving there in contact and intact.

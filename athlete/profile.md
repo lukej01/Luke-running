@@ -14,13 +14,39 @@ log, not here.
 
 ## Personal bests
 
-| Distance | Time | Context |
-|---|---|---|
-| 5K (XC) | 15:19 | Set off almost pure cross-training |
-| Mile | 4:20 | Run while recovering from mono |
+| Distance | Time | 5K-equivalent | Context |
+|---|---|---|---|
+| 800 | 1:58 | 13:43 | track |
+| 1600 | 4:20 | 14:30 | run while sick with mono |
+| 3200 | 9:29 | 15:13 | also 9:30; the 9:29 came while sick |
+| 5K (XC) | 15:19 | 15:19 | set off almost pure cross-training |
 
-Both PRs were set under conditions that would normally cost time. Treat them as
-floors on his ability, not ceilings.
+**Read the equivalent column. It is the most important thing in this file after
+the injury history.**
+
+His 800 predicts a 13:43 5K. His mile predicts 14:30. He has actually run 15:19.
+That is a 1:36 spread, and it slopes one way: the shorter the race, the better
+he looks.
+
+**He is speed-rich and aerobically under-built.** That is not a flaw in the
+data, it is the diagnosis. It is exactly what you would expect from a runner
+with natural speed whose aerobic development keeps getting cut short — mono,
+three injury cycles, months of cross-training instead of running.
+
+Three things follow, and they drive every prescription:
+
+1. **Sub-15:00 is an aerobic-strength problem, not a speed problem.** He does
+   not need to get faster. He needs to hold what he already has for longer.
+2. **Train the weakness.** Threshold and sustained work, not more 200s. The
+   Monday ladder that closed 400 in 59 and 200 in 26 is a session that trains
+   what he is already best at. It is a fun workout and a poor use of a hard day.
+3. **The 3200 is the honest anchor.** It converts to 15:13 against an actual
+   15:19 — it agrees with reality. The 800 and mile equivalents do not; never
+   use them to set 5K expectations.
+
+His closing speed is a tactical weapon, though. In a top-3 fight at state,
+nobody in that race outkicks a 1:58 800 runner. Get to 400m to go in contact
+and he wins the sprint.
 
 ## Goals — 2026 season
 

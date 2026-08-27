@@ -46,22 +46,18 @@ first race back, and a mileage step-up are all jumps.
 |---|---|---|
 | ~2 weeks ago | 5 × 1200, hilly trail | Crushed it |
 | Season opener | 5K, extremely slow/hard course | **16:59** |
-| Mon 2026-08-24 | Broken ladder, minimal rest | 1.5mi @ 5:05 → 1mi @ 4:59 → 800 in 2:20 → 400 in 59 → 200 in 26 |
+| Recent Monday | Ladder, minimal rest | 1.5mi @ 5:05 → 1mi @ 4:59 → 800 2:20 → 400 59 → 200 26 |
 
-### How to read these
+**The 16:59 is the headline.** Last year: ~17:30 on that same course the week
+before running 15:19. So 16:59 is 31 seconds faster on identical terrain, and it
+came in his *first race back* rather than a week out from peak. That maps to
+roughly a 14:48 flat 5K; a straight course adjustment gives 15:09. Current
+fitness is **14:48–15:09**.
 
-**The 16:59 is the headline.** Last year he ran ~17:30 on that same course the
-week before running his 15:19 PR. So 16:59 is roughly a **30-second improvement
-on identical terrain** — and it came in his *first race back*, not mid-season.
-
-**The Monday ladder is 15-flat-caliber work.** 1.5 miles at 5:05 rolling into a
-mile at 4:59 on minimal rest, then closing 800/400/200 at 2:20 / 59 / 26, is a
-session that fit runners hold at goal-pace fitness, not one they grind through.
-
-**Conclusion: treat current fitness as at or slightly ahead of last year's peak,
-with the entire build still in front of him.** That is the argument for patience,
-not for acceleration — the fitness is already there, so the job between now and
-November is to arrive healthy, not to add more.
+**The ladder is fast, but it is the wrong workout.** Closing 400 in 59 and 200
+in 26 trains his strength. His PR spread (see `profile.md`) says the limiter is
+aerobic strength, not speed. Tuesday work from here is threshold and sustained
+efforts.
 
 ## Season shape
 

@@ -1,246 +1,147 @@
 #!/usr/bin/env python3
 """Tests for coachkit. Run: python3 tools/test_coachkit.py"""
-
 from __future__ import annotations
 
 import datetime as dt
 import sys
-import tempfile
 import unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-
 import coachkit as ck  # noqa: E402
 
 
-class TestTimeParsing(unittest.TestCase):
-    def test_parses_all_shapes(self):
+class TestTime(unittest.TestCase):
+    def test_parse(self):
         self.assertEqual(ck.parse_time("59"), 59)
-        self.assertEqual(ck.parse_time("2:20"), 140)
-        self.assertEqual(ck.parse_time("16:59"), 1019)
-        self.assertEqual(ck.parse_time("1:05:30"), 3930)
+        self.assertEqual(ck.parse_time("1:58"), 118)
+        self.assertEqual(ck.parse_time("9:29"), 569)
+        self.assertEqual(ck.parse_time("15:19"), 919)
 
     def test_rejects_junk(self):
         for bad in ["", "  ", "1:2:3:4", "abc", "1::2"]:
             with self.assertRaises(ValueError):
                 ck.parse_time(bad)
 
-    def test_round_trips(self):
-        for text in ["59", "2:20", "16:59", "1:05:30"]:
-            self.assertEqual(
-                ck.format_time(ck.parse_time(text)), text.lstrip("0") if text != "59" else "0:59"
-            )
+    def test_format(self):
+        self.assertEqual(ck.format_time(919), "15:19")
+        self.assertEqual(ck.format_time(118), "1:58")
 
 
-class TestDistanceParsing(unittest.TestCase):
-    def test_named(self):
-        self.assertEqual(ck.parse_distance("5k"), 5000)
-        self.assertEqual(ck.parse_distance("5K"), 5000)
-        self.assertAlmostEqual(ck.parse_distance("mile"), 1609.344)
-        self.assertEqual(ck.parse_distance("1600"), 1600)
-
-    def test_metre_suffix_does_not_break_mile(self):
+class TestDistance(unittest.TestCase):
+    def test_mile_survives_m_stripping(self):
         # Regression: naive "m" stripping turned "mile" into "ile".
         self.assertAlmostEqual(ck.parse_distance("mile"), 1609.344)
         self.assertEqual(ck.parse_distance("1600m"), 1600)
-        self.assertEqual(ck.parse_distance("800m"), 800)
-
-    def test_raw_metres(self):
-        self.assertEqual(ck.parse_distance("4828"), 4828)
+        self.assertEqual(ck.parse_distance("3200"), 3200)
 
     def test_rejects_unknown(self):
         with self.assertRaises(ValueError):
             ck.parse_distance("furlong")
-        with self.assertRaises(ValueError):
-            ck.parse_distance("-100")
 
 
 class TestRiegel(unittest.TestCase):
-    def test_5k_converts_to_a_plausible_mile(self):
-        five_k = ck.parse_time("15:19")
-        mile = five_k * (1609.344 / 5000) ** ck.RIEGEL_EXPONENT
-        self.assertGreater(mile, 250)
-        self.assertLess(mile, 290)
+    def test_longer_is_slower(self):
+        self.assertGreater(ck.riegel(569, 3200, 5000), 569)
 
-    def test_riegel_underrates_this_athletes_speed(self):
-        """Riegel converts his 15:19 to ~4:36. He has actually run 4:20 — sick.
+    def test_3200_anchors_near_his_5k(self):
+        """His 9:29 3200 converts to ~15:13 — within seconds of his 15:19 PR.
 
-        This is a real calibration fact, not a bug: he is meaningfully faster
-        at the mile than his 5K implies. Treat Riegel mile equivalents as a
-        floor for him, and do not use them to argue his 5K fitness is worse
-        than it looks.
+        This is why the 3200 is the honest anchor: it agrees with reality.
         """
-        five_k = ck.parse_time("15:19")
-        predicted = five_k * (1609.344 / 5000) ** ck.RIEGEL_EXPONENT
-        actual = ck.parse_time("4:20")
-        self.assertGreater(predicted, actual)
-        self.assertGreater(predicted - actual, 10)
+        predicted = ck.riegel(ck.parse_time("9:29"), 3200, 5000)
+        actual = ck.parse_time("15:19")
+        self.assertLess(abs(predicted - actual), 20)
 
-    def test_identity(self):
-        time = ck.parse_time("16:59")
-        self.assertAlmostEqual(time * (5000 / 5000) ** ck.RIEGEL_EXPONENT, time)
+    def test_800_wildly_overrates_his_5k(self):
+        """His 1:58 800 predicts 13:43. He has run 15:19.
 
-
-def _write_log(rows: list[str]) -> Path:
-    handle = tempfile.NamedTemporaryFile(
-        "w", suffix=".csv", delete=False, encoding="utf-8", newline=""
-    )
-    handle.write("date,type,miles,minutes,pace,hard,next_am,confirmed,notes\n")
-    for row in rows:
-        handle.write(row + "\n")
-    handle.close()
-    return Path(handle.name)
+        Not a bug — it is the whole diagnosis. He is speed-rich and
+        aerobically under-built, so short-distance equivalents must never be
+        used to set 5K expectations.
+        """
+        predicted = ck.riegel(ck.parse_time("1:58"), 800, 5000)
+        self.assertLess(predicted, ck.parse_time("14:00"))
 
 
-class TestWeeklyAggregation(unittest.TestCase):
-    def test_xt_credit_and_load(self):
-        path = _write_log(
-            [
-                "2026-08-24,run,10,,6:40,0,clean,yes,easy",
-                "2026-08-25,xt,,120,,0,,yes,bike",
-            ]
-        )
-        weeks = ck.build_weeks(ck.load_sessions(path))
-        self.assertEqual(len(weeks), 1)
-        week = weeks[0]
-        self.assertAlmostEqual(week.run_miles, 10.0)
-        self.assertAlmostEqual(week.xt_credit_miles, 12.0)
-        self.assertAlmostEqual(week.load_miles, 22.0)
+class TestRealData(unittest.TestCase):
+    def test_prs_load(self):
+        prs = ck.load_prs()
+        self.assertEqual([p.label for p in prs], ["800", "1600", "3200", "5k"])
 
-    def test_hard_days_count_distinct_dates(self):
-        path = _write_log(
-            [
-                "2026-08-24,workout,8,,,1,clean,yes,am",
-                "2026-08-24,run,4,,,1,clean,yes,pm double",
-                "2026-08-27,race,3.1,,,1,clean,yes,meet",
-            ]
-        )
-        week = ck.build_weeks(ck.load_sessions(path))[0]
-        self.assertEqual(week.hard_days, 2)
+    def test_races_load_with_anchor(self):
+        races = ck.load_races()
+        self.assertEqual(len(races), 2)
+        self.assertEqual(races[0].flat_ref, ck.parse_time("15:19"))
 
-    def test_empty_weeks_appear_in_gaps(self):
-        path = _write_log(
-            [
-                "2026-08-03,run,5,,,0,clean,yes,",
-                "2026-08-24,run,5,,,0,clean,yes,",
-            ]
-        )
-        weeks = ck.build_weeks(ck.load_sessions(path))
-        self.assertEqual(len(weeks), 4)
-        self.assertEqual([bool(w.sessions) for w in weeks], [True, False, False, True])
+    def test_weeks_load(self):
+        weeks = ck.load_weeks()
+        self.assertTrue(weeks)
+        self.assertTrue(all(w.run_miles <= ck.MILEAGE_CEILING for w in weeks))
 
-    def test_week_starts_on_monday(self):
-        self.assertEqual(ck.week_start(dt.date(2026, 8, 27)), dt.date(2026, 8, 24))
-        self.assertEqual(ck.week_start(dt.date(2026, 8, 24)), dt.date(2026, 8, 24))
-        self.assertEqual(ck.week_start(dt.date(2026, 8, 23)), dt.date(2026, 8, 17))
+    def test_current_log_is_clean(self):
+        self.assertEqual(ck.evaluate(ck.load_weeks()), [])
+
+
+def _week(start, miles, hard=2, symptoms="clean"):
+    return ck.Week(dt.date.fromisoformat(start), miles, 0, hard, symptoms, "")
 
 
 class TestRules(unittest.TestCase):
-    def _flags(self, rows: list[str]) -> list[ck.Flag]:
-        sessions = ck.load_sessions(_write_log(rows))
-        return ck.evaluate(ck.build_weeks(sessions), sessions)
+    def test_sixty_is_stop(self):
+        flags = ck.evaluate([_week("2026-09-07", 60)])
+        self.assertTrue(any("STOP" in f and "injured three times" in f for f in flags))
 
-    def test_sharp_pain_is_a_stop(self):
-        flags = self._flags(["2026-08-24,run,6,,,0,sharp,yes,calf"])
-        self.assertTrue(any(f.severity == "STOP" and "SHARP" in f.message for f in flags))
-
-    def test_sixty_miles_is_a_stop(self):
-        flags = self._flags(
-            [f"2026-08-2{d},run,10,,,0,clean,yes," for d in range(4, 8)]
-            + ["2026-08-28,run,12,,,0,clean,yes,", "2026-08-29,run,12,,,0,clean,yes,"]
-        )
-        self.assertTrue(any(f.severity == "STOP" and "injured three times" in f.message for f in flags))
-
-    def test_over_ceiling_warns_below_threshold(self):
-        flags = self._flags(
-            [
-                "2026-08-24,run,26,,,0,clean,yes,",
-                "2026-08-25,run,26,,,0,clean,yes,",
-            ]
-        )
-        self.assertTrue(any(f.severity == "WARN" and "ceiling" in f.message for f in flags))
-        self.assertFalse(any(f.severity == "STOP" for f in flags))
+    def test_over_ceiling_warns(self):
+        flags = ck.evaluate([_week("2026-09-07", 52)])
+        self.assertTrue(any("ceiling" in f for f in flags))
 
     def test_three_hard_days_warns(self):
-        flags = self._flags(
-            [
-                "2026-08-24,workout,8,,,1,clean,yes,",
-                "2026-08-26,workout,8,,,1,clean,yes,",
-                "2026-08-29,race,3.1,,,1,clean,yes,",
-            ]
-        )
-        self.assertTrue(any("hard days" in f.message for f in flags))
+        flags = ck.evaluate([_week("2026-09-07", 45, hard=3)])
+        self.assertTrue(any("hard days" in f for f in flags))
 
-    def test_volume_and_intensity_together_warns(self):
-        flags = self._flags(
-            [
-                "2026-08-17,run,30,,,0,clean,yes,",
-                "2026-08-18,workout,10,,,1,clean,yes,",
-                "2026-08-24,run,40,,,0,clean,yes,",
-                "2026-08-25,workout,10,,,1,clean,yes,",
-                "2026-08-27,workout,10,,,1,clean,yes,",
-            ]
-        )
-        self.assertTrue(
-            any("volume and intensity both rose" in f.message for f in flags)
-        )
+    def test_sharp_is_stop(self):
+        flags = ck.evaluate([_week("2026-09-07", 45, symptoms="sharp")])
+        self.assertTrue(any("STOP" in f and "sharp" in f for f in flags))
 
-    def test_workout_within_48h_of_race_warns(self):
-        flags = self._flags(
-            [
-                "2026-08-27,workout,8,,,1,clean,yes,",
-                "2026-08-29,race,3.1,,,1,clean,yes,",
-            ]
-        )
-        self.assertTrue(any("within 48 hours" in f.message for f in flags))
+    def test_volume_and_intensity_together(self):
+        flags = ck.evaluate([_week("2026-09-07", 40, hard=1),
+                             _week("2026-09-14", 48, hard=2)])
+        self.assertTrue(any("volume and intensity" in f for f in flags))
 
-    def test_workout_four_days_before_race_is_fine(self):
-        flags = self._flags(
-            [
-                "2026-08-25,workout,8,,,1,clean,yes,",
-                "2026-08-29,race,3.1,,,1,clean,yes,",
-            ]
-        )
-        self.assertFalse(any("within 48 hours" in f.message for f in flags))
+    def test_step_up_after_symptoms(self):
+        flags = ck.evaluate([_week("2026-09-07", 40, symptoms="sore"),
+                             _week("2026-09-14", 48)])
+        self.assertTrue(any("Progression is earned" in f for f in flags))
 
-    def test_stepping_up_after_symptoms_warns(self):
-        flags = self._flags(
-            [
-                "2026-08-17,run,30,,,0,sore,yes,adductor",
-                "2026-08-24,run,40,,,0,clean,yes,",
-            ]
-        )
-        self.assertTrue(any("Progression is earned" in f.message for f in flags))
-
-    def test_clean_hold_produces_no_warnings(self):
-        flags = self._flags(
-            [
-                "2026-08-17,run,30,,,0,clean,yes,",
-                "2026-08-18,workout,10,,,1,clean,yes,",
-                "2026-08-24,run,30,,,0,clean,yes,",
-                "2026-08-25,workout,10,,,1,clean,yes,",
-            ]
-        )
-        self.assertEqual([f for f in flags if f.severity in {"STOP", "WARN"}], [])
-
-    def test_missing_next_am_on_hard_session_is_flagged(self):
-        flags = self._flags(["2026-08-24,workout,8,,,1,,yes,"])
-        self.assertTrue(any("no next-morning report" in f.message for f in flags))
-
-    def test_unconfirmed_entries_flagged(self):
-        flags = self._flags(["2026-08-24,run,6,,,0,clean,no,guessed date"])
-        self.assertTrue(any("unconfirmed" in f.message for f in flags))
+    def test_steady_clean_weeks_are_silent(self):
+        self.assertEqual(ck.evaluate([_week("2026-09-07", 48),
+                                      _week("2026-09-14", 48)]), [])
 
 
-class TestRealLog(unittest.TestCase):
-    def test_repo_log_parses(self):
-        sessions = ck.load_sessions(ck.DEFAULT_LOG)
-        self.assertGreater(len(sessions), 0)
-        for session in sessions:
-            self.assertIn(session.type, ck.VALID_TYPES)
-            self.assertIn(session.next_am, ck.SYMPTOM_RANK)
+class TestPlan(unittest.TestCase):
+    def test_never_exceeds_ceiling(self):
+        for out in range(0, 15):
+            self.assertLessEqual(ck.phase_for(out)[0], ck.MILEAGE_CEILING)
+
+    def test_clamps_outside_the_table(self):
+        self.assertEqual(ck.phase_for(99), ck.PLAN_BY_WEEKS_OUT[max(ck.PLAN_BY_WEEKS_OUT)])
+        self.assertEqual(ck.phase_for(0), ck.PLAN_BY_WEEKS_OUT[0])
+
+    def test_taper_is_small(self):
+        """He does not respond to big tapers — the cut is ~15%, not 30%."""
+        peak = max(m for m, _, _ in ck.PLAN_BY_WEEKS_OUT.values())
+        state_week = ck.PLAN_BY_WEEKS_OUT[0][0]
+        self.assertLess((peak - state_week) / peak, 0.20)
+        self.assertGreater((peak - state_week) / peak, 0.10)
+
+    def test_mileage_never_jumps_more_than_10_percent(self):
+        outs = sorted(ck.PLAN_BY_WEEKS_OUT, reverse=True)
+        miles = [ck.PLAN_BY_WEEKS_OUT[o][0] for o in outs]
+        for before, after in zip(miles, miles[1:]):
+            if after > before:
+                self.assertLessEqual((after - before) / before, 0.10)
 
 
 if __name__ == "__main__":
-    unittest.main(verbosity=2)
+    unittest.main(verbosity=1)
