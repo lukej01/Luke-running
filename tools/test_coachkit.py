@@ -130,7 +130,7 @@ class TestPlan(unittest.TestCase):
 
     def test_taper_is_small(self):
         """He does not respond to big tapers — the cut is ~15%, not 30%."""
-        peak = max(m for m, _, _ in ck.PLAN_BY_WEEKS_OUT.values())
+        peak = max(m for m, _, _, _ in ck.PLAN_BY_WEEKS_OUT.values())
         state_week = ck.PLAN_BY_WEEKS_OUT[0][0]
         self.assertLess((peak - state_week) / peak, 0.20)
         self.assertGreater((peak - state_week) / peak, 0.10)

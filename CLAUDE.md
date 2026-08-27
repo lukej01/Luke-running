@@ -80,15 +80,26 @@ python3 tools/coachkit.py week       # weekly load + rule flags
 python3 tools/coachkit.py check      # violations only
 ```
 
-## The one insight that drives prescriptions
+## The two numbers that drive prescriptions
 
-His 800 (1:58) predicts a 13:43 5K. His 3200 (9:29) predicts 15:13. He has run
-15:19. **He is speed-rich and aerobically under-built** — so sub-15:00 is an
-aerobic-strength problem, not a speed problem.
+**1. His 5K lags his speed by 1:36.** The 800 (1:58) predicts a 13:43 5K; the
+3200 (9:29) predicts 15:13; he has run 15:19. Use the 3200 as the anchor — it
+agrees with reality. Never set 5K expectations off the 800 or mile.
 
-Prescribe threshold and sustained work. Do not prescribe more short, fast reps;
-that trains what he is already best at. Use the 3200 as the fitness anchor and
-never set 5K expectations off the 800 or mile.
+**2. Running miles are capped at 50. Aerobic load is not.** Summer 2026 was
+roughly six weeks at 2.5 h/day of bike and aqua jogging — 90 mile-equivalents
+per week, carried while injured, aggravating nothing.
+
+Together those say the limiter is **economy and durability, not the engine**.
+Cross-training built him a large aerobic system; what it cannot build is the
+ability to hold 4:50/mile on grass and the tissue tolerance to absorb the
+pounding. So:
+
+- Prescribe threshold and sustained work at 5:10–5:20. Not more short fast reps
+  — that trains what he is already best at.
+- Prescribe cross-training generously. It is free aerobic load with zero impact
+  cost, and it is the one lever with no injury risk attached.
+- Track running miles and total aerobic load as two separate budgets.
 
 His closing speed is still a tactical weapon in a top-3 fight — nobody outkicks
 a 1:58 800 runner over the last 400.

@@ -294,25 +294,25 @@ def cmd_predict(args) -> int:
 # 45 -> 48 -> 50, holds, then comes down. Volume and intensity never rise in the
 # same week, and the state-week cut is ~15%, not a big taper.
 PLAN_BY_WEEKS_OUT = {
-    9: (48, "Aerobic strength",
-        "4 x 1 mile @ 5:10-5:15, 60s rest. Volume steps this week - hold intensity."),
-    8: (48, "Aerobic strength",
+    9: (48, 250, "Aerobic strength",
+        "4 x 1 mile @ 5:10-5:15, 60s rest. Volume steps - hold intensity."),
+    8: (48, 300, "Aerobic strength",
         "5 x 1 mile @ 5:10, 60s rest. Or 25 min continuous @ 5:20."),
-    7: (50, "Aerobic strength",
+    7: (50, 300, "Aerobic strength",
         "20-25 min continuous tempo @ 5:15-5:20. Volume steps - hold intensity."),
-    6: (50, "Strength -> race specific",
+    6: (50, 300, "Strength -> race specific",
         "6 x 1000 @ 3:00 (5K pace), 90s rest."),
-    5: (50, "Strength -> race specific",
+    5: (50, 300, "Strength -> race specific",
         "Hill strength: 8-10 x 60s uphill hard, jog down."),
-    4: (50, "Strength -> race specific",
+    4: (50, 250, "Strength -> race specific",
         "8 x 1000 @ 3:00, 90s rest."),
-    3: (48, "Race specific",
+    3: (48, 250, "Race specific",
         "5 x 1200 @ 3:36, 2 min rest."),
-    2: (48, "Race specific - region",
+    2: (48, 200, "Race specific - region",
         "3 x mile @ 4:48-4:52, 3 min rest."),
-    1: (45, "Sharpen - sectionals",
+    1: (45, 150, "Sharpen - sectionals",
         "4 x 800 @ 2:22, full recovery. Crisp, not exhausting."),
-    0: (42, "STATE WEEK",
+    0: (42, 100, "STATE WEEK",
         "Tue: 3 x 800 @ 2:22. ~15% cut, intensity held. No big taper."),
 }
 
@@ -344,14 +344,17 @@ def cmd_plan(args) -> int:
     print("  Off weekends: add a second workout Friday and a real long run.")
     print()
 
-    print("%-13s%6s%7s  %-26s%s" % ("week of", "out", "miles", "phase", "workout"))
-    print("-" * 100)
+    print("%-13s%5s%7s%7s%8s  %-26s%s"
+          % ("week of", "out", "miles", "XT min", "load", "phase", "workout"))
+    print("-" * 118)
     monday = today - dt.timedelta(days=today.weekday()) + dt.timedelta(days=7)
     while monday <= STATE_MEET:
         weeks_out = max(0, (STATE_MEET - monday).days // 7)
-        miles, name, workout = phase_for(weeks_out)
+        miles, xt, name, workout = phase_for(weeks_out)
         miles = min(miles, MILEAGE_CEILING)
-        print("%-13s%6d%7.0f  %-26s%s" % (monday, weeks_out, miles, name, workout))
+        print("%-13s%5d%7.0f%7.0f%8.0f  %-26s%s"
+              % (monday, weeks_out, miles, xt, miles + xt / XT_MINUTES_PER_MILE,
+                 name, workout))
         monday += dt.timedelta(days=7)
 
     print()
@@ -363,6 +366,23 @@ def cmd_plan(args) -> int:
         print("Hold mileage. Progression is earned, and it has not been.")
     print("Ceiling is %.0f running miles. Cross-training carries anything above it."
           % MILEAGE_CEILING)
+    if weeks:
+        peak = max(weeks, key=lambda w: w.load)
+        recent = weeks[-1]
+        print()
+        print("Aerobic load check:")
+        print("  summer peak (%s): %.0f equiv  [%.0f run + %.0f XT min]"
+              % (peak.start, peak.load, peak.run_miles, peak.xt_minutes))
+        print("  most recent (%s): %.0f equiv  [%.0f run + %.0f XT min]"
+              % (recent.start, recent.load, recent.run_miles, recent.xt_minutes))
+        if recent.load < peak.load * 0.75:
+            print("  -> Down %.0f%% off the summer block."
+                  % ((1 - recent.load / peak.load) * 100))
+            print("     He carried that load on the bike and in the pool while")
+            print("     injured, and it aggravated nothing - so the aerobic")
+            print("     tolerance is proven even if the impact tolerance is not.")
+            print("     The XT targets above rebuild it without adding impact,")
+            print("     which is the only load that has ever hurt him.")
     return 0
 
 

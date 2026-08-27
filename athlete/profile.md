@@ -28,18 +28,31 @@ His 800 predicts a 13:43 5K. His mile predicts 14:30. He has actually run 15:19.
 That is a 1:36 spread, and it slopes one way: the shorter the race, the better
 he looks.
 
-**He is speed-rich and aerobically under-built.** That is not a flaw in the
-data, it is the diagnosis. It is exactly what you would expect from a runner
-with natural speed whose aerobic development keeps getting cut short — mono,
-three injury cycles, months of cross-training instead of running.
+**He is speed-rich and his 5K badly lags his speed.** But be precise about
+*why*, because the obvious reading is wrong.
+
+The obvious reading is "small aerobic engine." That does not survive contact
+with the summer: he spent roughly six weeks at **2.5 hours a day** of bike and
+aqua jogging — 90 mile-equivalents per week — and he has run 15:19 off almost
+pure cross-training. The engine is large.
+
+What cross-training does not build is the **transmission**: running-specific
+durability and economy. The ability to convert that aerobic power into 4:50/mile
+on grass for three miles, and the tendon and bone tolerance to absorb the
+pounding while doing it. That is the gap, and it explains all three symptoms at
+once — the engine carries him to 15:19, the missing economy leaves his 5K a
+minute and a half behind his 800, and the missing durability is why adding
+running volume quickly has injured him three times.
 
 Three things follow, and they drive every prescription:
 
-1. **Sub-15:00 is an aerobic-strength problem, not a speed problem.** He does
-   not need to get faster. He needs to hold what he already has for longer.
-2. **Train the weakness.** Threshold and sustained work, not more 200s. The
-   Monday ladder that closed 400 in 59 and 200 in 26 is a session that trains
-   what he is already best at. It is a fun workout and a poor use of a hard day.
+1. **Sub-15:00 is an economy and durability problem, not a speed problem and
+   not a raw aerobic one.** He does not need to get faster or fitter. He needs
+   to convert what he already has into sustained race pace, and arrive intact.
+2. **Train the weakness.** Threshold and sustained work at 5:10–5:20, not more
+   200s. The Monday ladder that closed 400 in 59 and 200 in 26 is a session that
+   trains what he is already best at — a fun workout and a poor use of a hard
+   day.
 3. **The 3200 is the honest anchor.** It converts to 15:13 against an actual
    15:19 — it agrees with reality. The 800 and mile equivalents do not; never
    use them to set 5K expectations.
@@ -58,6 +71,14 @@ and he wins the sprint.
 **Responds extremely well to cross-training.** Working equivalency is
 **10 minutes ≈ 1 mile**. He ran 15:19 off almost pure cross-training, so
 cross-training is a real substitute here, not a consolation prize.
+
+Summer 2026 makes the scale concrete: roughly six weeks at 2.5 hours a day of
+bike and aqua jogging is **90 mile-equivalents per week** — nearly double his
+running ceiling — carried while injured, aggravating nothing. His aerobic
+tolerance is close to unlimited. His *impact* tolerance is what caps at 50.
+
+Keep those two separate in every prescription. Running miles are capped.
+Aerobic load is not.
 
 **Comes back from layoffs unusually fast.** Fitness has never been the limiter.
 Do not panic-build after time off; the fitness returns on its own.
