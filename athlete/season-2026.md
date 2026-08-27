@@ -1,0 +1,75 @@
+# Season 2026 — status and history
+
+Last updated: 2026-08-27
+
+## Where things stand today
+
+- **Rebuilt to ~45 miles/week and held it for roughly a month.**
+- **Roughly three weeks into consistent workout training.** Workouts are going
+  well.
+- No active injury. Cross-training remains available and is proven effective.
+- **10.3 weeks to the state meet** (Saturday 2026-11-07). The whole build is
+  still ahead — this season is structured to crest in November, unlike last
+  year's mid-season peak.
+
+## Spring → summer 2026, what actually happened
+
+This is the context behind every current decision.
+
+**Track season:** got mono halfway through. Ran **4:20 in the mile while sick**.
+Then essentially no running for a couple of months.
+
+**Early summer:** started back gradually, then began grinding and built back to
+**50–55 miles/week for about two weeks**. Training was going well, volume was
+high, he felt strong.
+
+**Running camp:** went with that volume already on board and **came back
+injured** — a calf / posterior knee strain from a standing calf stretch, then an
+adductor strain.
+
+**Mid-summer onward:** almost entirely cross-training. **Two to three hours a
+day** on the bike and aqua jogging to hold fitness while injured. This is why
+the fitness never went away.
+
+**Now:** rebuilt to ~45 miles/week, held about a month, workouts going well.
+
+### The lesson from this summer
+
+The injury did not come from the 50–55 mile weeks by themselves. It came from
+carrying that volume into a new stimulus (camp) without backing off first. Every
+flare in his history has followed a load or intensity jump. Camp, a new course, a
+first race back, and a mileage step-up are all jumps.
+
+## Recent benchmarks
+
+| When | Session | Result |
+|---|---|---|
+| ~2 weeks ago | 5 × 1200, hilly trail | Crushed it |
+| Season opener | 5K, extremely slow/hard course | **16:59** |
+| Mon 2026-08-24 | Broken ladder, minimal rest | 1.5mi @ 5:05 → 1mi @ 4:59 → 800 in 2:20 → 400 in 59 → 200 in 26 |
+
+### How to read these
+
+**The 16:59 is the headline.** Last year he ran ~17:30 on that same course the
+week before running his 15:19 PR. So 16:59 is roughly a **30-second improvement
+on identical terrain** — and it came in his *first race back*, not mid-season.
+
+**The Monday ladder is 15-flat-caliber work.** 1.5 miles at 5:05 rolling into a
+mile at 4:59 on minimal rest, then closing 800/400/200 at 2:20 / 59 / 26, is a
+session that fit runners hold at goal-pace fitness, not one they grind through.
+
+**Conclusion: treat current fitness as at or slightly ahead of last year's peak,
+with the entire build still in front of him.** That is the argument for patience,
+not for acceleration — the fitness is already there, so the job between now and
+November is to arrive healthy, not to add more.
+
+## Season shape
+
+| Phase | Weeks | Emphasis |
+|---|---|---|
+| Now → early Oct | Base held at ~45–50 | Consistency, two quality days, cross-training supplement. Volume rises only on earned weeks. |
+| Early Oct → region | Sharpening | Hold volume, shift quality toward race-specific pace. |
+| Region → state | Crest | ~15% cut, intensity maintained. No big taper. |
+
+Meet-by-meet dates are in `data/schedule-2026.md`. Several are still unconfirmed
+— see that file.
