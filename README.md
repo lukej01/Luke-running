@@ -71,9 +71,11 @@ cross-training carry the volume his legs cannot.
 `tools/build_site.py` renders `site/index.html` from the CSVs — stat tiles,
 a weekly aerobic-load chart, the plan to state, and the rule check.
 
-**Deploying to GitHub Pages:** the workflow enables Pages itself
-(`enablement: true`) and deploys on every push to the default branch. If it
-still fails, set Settings → Pages → Source → **GitHub Actions** by hand.
+**Deploying to GitHub Pages:** one manual step first —
+Settings → Pages → Source → **GitHub Actions**. The workflow cannot do this
+itself; the default `GITHUB_TOKEN` cannot create a Pages site, so without that
+click every run dies at `configure-pages` with *"Resource not accessible by
+integration"*. Once it is set, pushes deploy on their own.
 
 **Or skip Pages entirely.** `python3 tools/build_site.py --artifact` emits
 `site/artifact.html`, the same page without the `<html>/<head>/<body>` wrapper,
