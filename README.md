@@ -71,8 +71,13 @@ cross-training carry the volume his legs cannot.
 `tools/build_site.py` renders `site/index.html` from the CSVs — stat tiles,
 a weekly aerobic-load chart, the plan to state, and the rule check.
 
-**Deploying to GitHub Pages:** Settings → Pages → Source → **GitHub Actions**.
-The workflow builds and deploys on every push to the default branch.
+**Deploying to GitHub Pages:** the workflow enables Pages itself
+(`enablement: true`) and deploys on every push to the default branch. If it
+still fails, set Settings → Pages → Source → **GitHub Actions** by hand.
+
+**Or skip Pages entirely.** `python3 tools/build_site.py --artifact` emits
+`site/artifact.html`, the same page without the `<html>/<head>/<body>` wrapper,
+ready to publish as a Claude Artifact — private by default, no plan required.
 
 Two things worth knowing before you turn it on:
 

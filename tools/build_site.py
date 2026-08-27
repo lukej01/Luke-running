@@ -139,7 +139,7 @@ def load_chart(weeks, planned) -> str:
     return "".join(parts)
 
 
-def build() -> Path:
+def build(artifact: bool = False) -> Path:
     today = dt.date.today()
     weeks = ck.load_weeks()
     planned = plan_rows(today)
@@ -209,7 +209,7 @@ def build() -> Path:
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>XC Season Dashboard &mdash; Fall 2026</title>
+<title>Road to Carrollton</title>
 <style>
 :root {{
   color-scheme: light;
@@ -285,7 +285,7 @@ tr.state td {{ background: color-mix(in srgb, var(--accent) 12%, transparent); f
 <body>
 <div class="wrap">
 <header>
-  <h1>XC Season Dashboard</h1>
+  <h1>Road to Carrollton</h1>
   <p>{days} days to the state meet &middot; {ck.STATE_MEET.strftime('%A %d %B %Y')}</p>
 </header>
 
@@ -372,6 +372,15 @@ for (const bar of document.querySelectorAll('.bar')) {{
 """
 
     OUT.mkdir(exist_ok=True)
+    if artifact:
+        # The Artifact host supplies <!doctype>/<html>/<head>/<body>, so ship
+        # only the title, the styles and the body's inner HTML.
+        title = doc[doc.index("<title>"):doc.index("</title>") + 8]
+        style = doc[doc.index("<style>"):doc.index("</style>") + 8]
+        body = doc[doc.index("<body>") + 6:doc.index("</body>")]
+        path = OUT / "artifact.html"
+        path.write_text(f"{title}\n{style}\n{body}", encoding="utf-8")
+        return path
     (OUT / "index.html").write_text(doc, encoding="utf-8")
     (OUT / ".nojekyll").write_text("", encoding="utf-8")
     (OUT / "robots.txt").write_text("User-agent: *\nDisallow: /\n", encoding="utf-8")
@@ -384,7 +393,7 @@ def audit(text: str) -> list[str]:
 
 
 if __name__ == "__main__":
-    path = build()
+    path = build(artifact="--artifact" in sys.argv)
     leaked = audit(path.read_text(encoding="utf-8"))
     if leaked:
         raise SystemExit("refusing to ship: sensitive terms in page: %s" % leaked)
