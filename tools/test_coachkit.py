@@ -143,5 +143,22 @@ class TestPlan(unittest.TestCase):
                 self.assertLessEqual((after - before) / before, 0.10)
 
 
+
+
+class TestSiteBuild(unittest.TestCase):
+    """The published page is public even from a private repo."""
+
+    def test_page_carries_no_identifying_or_medical_terms(self):
+        import build_site
+        page = build_site.build().read_text(encoding="utf-8")
+        self.assertEqual(build_site.audit(page), [])
+
+    def test_page_still_has_the_useful_content(self):
+        import build_site
+        page = build_site.build().read_text(encoding="utf-8")
+        for expected in ("Weekly aerobic load", "Plan to state", "noindex", "15:19"):
+            self.assertIn(expected, page)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=1)

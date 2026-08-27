@@ -20,7 +20,9 @@ data/weeks.csv                 weekly training shape
 data/README.md                 CSV schemas
 data/schedule-2026.md          race every Saturday to state
 tools/coachkit.py              predictions, planning, rule checks
+tools/build_site.py            renders the dashboard into site/
 tools/test_coachkit.py         tests
+.github/workflows/pages.yml    build + deploy to GitHub Pages
 ```
 
 ## Logging
@@ -38,7 +40,8 @@ python3 tools/coachkit.py plan       # week-by-week to state
 python3 tools/coachkit.py week       # weekly load + rule flags
 python3 tools/coachkit.py check      # violations only; exit 1 if any
 python3 tools/coachkit.py xt --minutes 150
-python3 tools/test_coachkit.py       # 23 tests
+python3 tools/build_site.py          # render dashboard to site/
+python3 tools/test_coachkit.py       # 25 tests
 ```
 
 `week` and `check` enforce the standing rules against the actual log: the ~50
@@ -53,13 +56,33 @@ every flare followed a load or intensity jump, showing up the next morning
 rather than during the run. Fitness has never been his limiter. Any plan that
 trades health for volume has the trade backwards.
 
-**He is speed-rich and aerobically under-built.** His 800 predicts a 13:43 5K;
-he has run 15:19. Sub-15 does not require getting faster — it requires the
-aerobic strength that mono and three injury cycles have never let him build.
-Train threshold, not more 200s.
+**Two separate budgets: running miles and aerobic load.** His 800 predicts a
+13:43 5K and he has run 15:19 — but that gap is not a small engine. Six weeks at
+2.5 h/day of cross-training is 90 mile-equivalents a week, nearly double his
+running ceiling, carried while injured. The engine is large.
 
-Those two point the same way: patient aerobic work, cross-training for the
-volume he cannot absorb on foot, and a body that arrives in November intact.
+What cross-training cannot build is the transmission: running economy at
+4:50/mile and the tissue tolerance for the pounding. So running miles cap at 50
+and aerobic load does not. Train threshold, not more 200s, and let
+cross-training carry the volume his legs cannot.
+
+## The dashboard
+
+`tools/build_site.py` renders `site/index.html` from the CSVs — stat tiles,
+a weekly aerobic-load chart, the plan to state, and the rule check.
+
+**Deploying to GitHub Pages:** Settings → Pages → Source → **GitHub Actions**.
+The workflow builds and deploys on every push to the default branch.
+
+Two things worth knowing before you turn it on:
+
+- **Pages on a private repo needs GitHub Pro.** On the free plan, making the
+  repo private disables Pages.
+- **The published site is public even when the repo is private** (only
+  Enterprise serves private sites). So the page deliberately carries no name,
+  school, or medical history, sets `noindex`, and ships a `robots.txt` that
+  disallows crawlers. A test asserts none of those terms reach the page, and it
+  gates the deploy — if it fails, nothing publishes.
 
 ## Status
 
